@@ -89,7 +89,7 @@ npm install -g billion-context
     "http://127.0.0.1:1235": {
       "models": {
         "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp": {
-          "context": 131072
+          "context": 98304
         }
       }
     }
@@ -97,8 +97,15 @@ npm install -g billion-context
 }
 ```
 
+> [!TIP]
+> **Why declare 98,304 instead of 131,072 in Billion-Context?**
+> Billion-Context scales its automatic compression pressure bands (45%, 75%, and 95%) directly from this number. Declaring the **true sustainable window (98,304)** ensures compression begins actively protecting your VRAM around **~44,000 tokens** (45% threshold), well before the RTX 3090 (24GB) experiences memory pressure under the 27B weights + `q8_0` KV cache.
+
 ### Automatic Background Startup:
-The proxy is registered as a Windows Scheduled Task (`BiliProxyService`) that launches automatically upon login.
+The proxy is currently registered as a Windows Scheduled Task (`BiliProxyService`) that launches automatically upon login.
+
+> [!NOTE]
+> *Upcoming Enhancement*: Billion-Context PR #3176 / Issue #3178 introduces first-class service management (`bili service install|status|restart|remove`). Once merged upstream, the 1-click installer will adopt the native CLI service.
 
 - **Web Dashboard**: `http://localhost:8787/__bili/`
 - **Live Stats**: `http://localhost:8787/__bili/stats`

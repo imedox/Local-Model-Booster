@@ -114,7 +114,7 @@ $biliConfigContent = @'
     "http://127.0.0.1:1235": {
       "models": {
         "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp": {
-          "context": 131072
+          "context": 98304
         }
       }
     }
