@@ -297,4 +297,26 @@ The server works with public repositories out of the box. To access private repo
 }
 ```
 
+---
+
+## 13. Automated Skill Validation (`scripts/validate_skills.py`)
+
+To ensure skills remain stable, error-free, and fully integrated with the tools suite, a Python validation script is provided.
+
+### When to Run:
+- Before committing any changes or submitting a PR.
+- Whenever you edit `SKILL.md` frontmatter, add a new skill, or modify tools in `tools/`.
+
+### Run Command:
+```bash
+python scripts/validate_skills.py
+```
+
+### Verification Checks:
+1. **Frontmatter Integrity**: Checks YAML formatting, ensures folder name matches `name` property, and checks allowed properties (`name`, `display-name`, `description`, `disable-model-invocation`, `user-invocable`).
+2. **Description Length**: Validates that descriptions are between 40 and 1,024 characters.
+3. **Diagrams**: Confirms that every skill has an accompanying `diagram.mmd` Mermaid flow.
+4. **Tool Linkage**: Parses every `SKILL.md` for `bt <tool>` calls and checks that `tools/<tool>.ps1` exists.
+
+
 

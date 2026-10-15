@@ -143,8 +143,35 @@ Local-Model-Booster/
 │   ├── DIAGRAMS.md               <-- Mermaid workflow diagrams for every skill
 │   └── TOOLS.md                  <-- CLI tools reference manual
 ├── scripts/
-│   └── validate_skills.py        <-- Skill validation script
+│   └── validate_skills.py        <-- Automated skill validation script
 └── LICENSE                       <-- MIT License
+```
+
+---
+
+## 🧪 Automated Skill Validation (`validate_skills.py`)
+
+A built-in Python test suite is provided to ensure all Bionic skills conform to strict quality, formatting, and tool-linkage standards.
+
+### When to run it:
+- **Before opening a Pull Request or committing changes** to any skill in `skills/`.
+- **After adding a new modular skill** or editing `SKILL.md` frontmatter.
+- **After modifying or adding tools** in `tools/` to ensure no broken `bt <tool>` references exist.
+
+### What it checks automatically:
+1. **Frontmatter Integrity**: Verifies valid YAML headers, exact folder/name matches, and allowed keys.
+2. **Description Quality**: Ensures description lengths are between 40 and 1,024 characters for clear agent router matching.
+3. **Mermaid Flowchart Presence**: Verifies every skill folder contains an associated architectural `diagram.mmd`.
+4. **Tool Linkage (`bt` references)**: Scans every `SKILL.md` for references to `bt <tool>` and verifies the corresponding PowerShell script exists in `tools/<tool>.ps1`.
+
+### How to execute:
+```bash
+python scripts/validate_skills.py
+```
+*Expected output when all 33 skills pass:*
+```text
+33 skills, 100425 chars
+OK
 ```
 
 ---
