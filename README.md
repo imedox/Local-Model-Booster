@@ -7,7 +7,7 @@
 ## 🌟 Highlights & Key Features
 
 - **Master Skill (`bionic-booster`)**: An all-in-one consolidated Bionic skill implementing the strict `UNDERSTAND -> PLAN -> ACT -> VERIFY -> REPORT` execution loop, razor-sharp thinking ceilings, and surgical diff editing.
-- **Qwen 3.8 Reasoning Ceilings**: Calibrated thinking budgets (500–4,000 tokens) that prevent reasoning loops and eliminate KV cache bloat across 50+ conversation turns (`preserve_thinking: true` safe).
+- **Qwen 3.8 Reasoning Ceilings**: Calibrated thinking budgets (500–4,000 tokens) that prevent reasoning loops and eliminate KV cache bloat across 50+ conversation turns (preserve_thinking: true safe).
 - **128K Context (131,072 tokens) + Billion-Context Proxy**: Seamless coordination between the 128K native context window (`q8_0` KV cache + Flash Attention) and the local [Billion-Context](https://github.com/ranxianglei/billion-context) proxy daemon for hierarchical memory compression and semantic retrieval.
 - **In-Memory Zero-Loop Guard**: Hard-coded in-memory break rule (stops immediately if the same tool call or error occurs twice) without spawning external shell scripts.
 - **6 Production-Tuned Profiles**: Ready-to-use configurations for Coding (`01_coding` default), Tool Use, General Operation, Long Tasks, Max Intelligence, and Max Speed.
