@@ -1,0 +1,11 @@
+flowchart TD
+  A["Start task"] --> B["git status"]
+  B --> C["Branch agent/task or backup"]
+  C --> D["Edit"]
+  D --> E["Verify"]
+  E --> F{"Milestone ok?"}
+  F -- yes --> G["Commit specific files"]
+  F -- no --> H["git restore my file only"]
+  G --> D
+  H --> D
+  G --> I["Report diff stat"]

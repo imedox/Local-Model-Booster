@@ -1,0 +1,11 @@
+flowchart TD
+  A["Milestone evidence"] --> B["Re-read original request"]
+  B --> C["Check criteria cover all mandatory items"]
+  C --> D["Inspect diff and test output"]
+  D --> E["3 falsification attempts"]
+  E --> F["Score with original weights"]
+  F --> G{"Mandatory all verified?"}
+  G -- yes --> H["COMPLETE"]
+  G -- "evidence missing" --> I["VERIFY"]
+  G -- "defects" --> J["CONTINUE"]
+  G -- "real blocker" --> K["BLOCK"]

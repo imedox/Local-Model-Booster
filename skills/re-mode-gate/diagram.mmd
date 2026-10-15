@@ -1,0 +1,15 @@
+flowchart TD
+  A["Reverse-engineering request"] --> B["bt re-mode -Clear"]
+  B --> C{"User already stated mode AND authorization?"}
+  C -- yes --> F["bt re-mode -Set mode -Authorized yes"]
+  C -- no --> D["Optional: bt rea-doctor"]
+  D --> E["ASK: with IDA or without IDA? authorized?"]
+  E --> W["WAIT for answer"]
+  W --> G{"Authorized?"}
+  G -- no --> X["Stop: lawful alternatives only"]
+  G -- yes --> F
+  F --> H{"Mode"}
+  H -- with-ida --> I["re-with-ida"]
+  H -- without-ida --> J["re-without-ida"]
+  I --> K["rea-reverse-engineering"]
+  J --> K

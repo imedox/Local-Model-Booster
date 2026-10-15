@@ -1,0 +1,10 @@
+flowchart TD
+  A["After each result or thought"] --> B{"Repeat signal?"}
+  B -- no --> A
+  B -- yes --> C["STOP action"]
+  C --> D["Write tried / happened / known"]
+  D --> E["Name false assumption"]
+  E --> F["Switch strategy"]
+  F --> G{"Strategies used < 3?"}
+  G -- yes --> H["Try new approach"] --> A
+  G -- no --> I["Escalate to user with evidence"]

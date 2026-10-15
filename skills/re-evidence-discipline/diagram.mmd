@@ -1,0 +1,9 @@
+flowchart TD
+  A["Tool result"] --> B["Log OBS with source"]
+  B --> C["Conclude"]
+  C --> D["Log INF with basis ids"]
+  D --> E{"Unresolved?"}
+  E -- yes --> F["Log UNK"]
+  E -- no --> G["bt re-evidence -Show"]
+  F --> G
+  G --> H["Report maps every claim to an id"]

@@ -1,0 +1,9 @@
+flowchart TD
+  A["Start / any tool result"] --> B{"Context used?"}
+  B -- "< 50%" --> C["Work normally"]
+  B -- "50-65%" --> D["Stop big reads, summarize"]
+  B -- "> 65%" --> E["Write .agent/STATE.md"]
+  E --> F["Fresh session or continue from summary"]
+  F --> G["Restate GOAL / CONSTRAINTS / NEXT"]
+  C --> H["Search first, read ranges only"]
+  D --> H

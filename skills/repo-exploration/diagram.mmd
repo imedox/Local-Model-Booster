@@ -1,0 +1,9 @@
+flowchart TD
+  A["New repo or area"] --> B["Root listing depth 2"]
+  B --> C["Manifest and README"]
+  C --> D["Versions and build/test commands"]
+  D --> E["Entry points"]
+  E --> F["rg search for task symbols"]
+  F --> G["Read +/- 30 lines"]
+  G --> H["git log and status"]
+  H --> I["Write .agent/REPO_MAP.md"]

@@ -1,0 +1,85 @@
+{
+    "load":  {
+                 "fields":  [
+                                {
+                                    "key":  "llm.load.llama.autoFit",
+                                    "value":  false
+                                },
+                                {
+                                    "key":  "llm.load.contextLength",
+                                    "value":  131072
+                                },
+                                {
+                                    "key":  "llm.load.llama.flashAttention",
+                                    "value":  true
+                                },
+                                {
+                                    "key":  "llm.load.llama.kCacheQuantizationType",
+                                    "value":  {
+                                                  "value":  "q8_0",
+                                                  "checked":  true
+                                              }
+                                },
+                                {
+                                    "key":  "llm.load.llama.vCacheQuantizationType",
+                                    "value":  {
+                                                  "value":  "q8_0",
+                                                  "checked":  true
+                                              }
+                                },
+                                {
+                                    "key":  "llm.load.llama.acceleration.offloadRatio",
+                                    "value":  1
+                                },
+                                {
+                                    "key":  "llm.load.numParallelSessions",
+                                    "value":  1
+                                }
+                            ]
+             },
+    "operation":  {
+                      "fields":  [
+                                     {
+                                         "key":  "llm.prediction.temperature",
+                                         "value":  0.3
+                                     },
+                                     {
+                                         "key":  "llm.prediction.topPSampling",
+                                         "value":  0.8
+                                     },
+                                     {
+                                         "key":  "llm.prediction.topKSampling",
+                                         "value":  20
+                                     },
+                                     {
+                                         "key":  "llm.prediction.minPSampling",
+                                         "value":  {
+                                                       "value":  0,
+                                                       "checked":  true
+                                                   }
+                                     },
+                                     {
+                                         "key":  "llm.prediction.repeatPenalty",
+                                         "value":  {
+                                                       "value":  1,
+                                                       "checked":  true
+                                                   }
+                                     },
+                                     {
+                                         "key":  "llm.prediction.llama.presencePenalty",
+                                         "value":  {
+                                                       "value":  0,
+                                                       "checked":  false
+                                                   }
+                                     },
+                                     {
+                                         "key":  "llm.prediction.reasoning.budgetTokens",
+                                         "value":  {
+                                                       "value":  4096,
+                                                       "checked":  true
+                                                   }
+                                     }
+                                 ]
+                  },
+    "preset":  "tool_use"
+}

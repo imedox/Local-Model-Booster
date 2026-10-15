@@ -1,0 +1,10 @@
+flowchart TD
+  A["Request"] --> B["Tag M / P / Q / C / D"]
+  B --> C["Checklist with exact values"]
+  C --> D["Add implied needs"]
+  D --> E["Implement with scope protection"]
+  E --> F["Track status"]
+  F --> G["Re-read ORIGINAL request"]
+  G --> H{"All M done, no P violated?"}
+  H -- yes --> I["Deliver"]
+  H -- no --> J["Fix or document blocker"]

@@ -1,0 +1,13 @@
+flowchart TD
+  A["Run command"] --> B["Assume PowerShell"]
+  B --> C["Get-Command tool check"]
+  C --> D{"Installed?"}
+  D -- no --> E["Use alternative"]
+  D -- yes --> F["Quote paths, correct syntax"]
+  F --> G{"Touches files?"}
+  G -- yes --> H["Keep CRLF and encoding"]
+  G -- no --> I["Run"]
+  H --> I
+  I --> J{"GPU heavy?"}
+  J -- yes --> K["Check nvidia-smi VRAM first"]
+  J -- no --> L["Done"]

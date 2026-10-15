@@ -1,0 +1,11 @@
+flowchart TD
+  A["Need API or library"] --> B["Detect versions"]
+  B --> C["Find usage in repo"]
+  C --> D{"Found?"}
+  D -- yes --> E["Copy pattern"]
+  D -- no --> F["Inspect package metadata or docs"]
+  F --> G{"Confirmed?"}
+  G -- no --> H["Tiny isolated test or web-research"]
+  G -- yes --> E
+  H --> E
+  E --> I["Implement"]

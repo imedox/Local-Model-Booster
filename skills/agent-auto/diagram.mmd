@@ -1,0 +1,16 @@
+flowchart TD
+  A["agent-auto prefix"] --> RG{"Reverse engineering task?"}
+  RG -- yes --> M["re-mode-gate: ask user WITH IDA or WITHOUT IDA, wait"]
+  M --> P0
+  RG -- no --> P0["P0 BOOT: memory, env, git branch"]
+  P0 --> P1["P1 ASSESS: criteria and weights"]
+  P1 --> P2["P2 PLAN: PLAN.md"]
+  P2 --> P3["P3 IMPLEMENT"]
+  P3 --> P4["P4 VERIFY: tests, review, score"]
+  P4 --> P5["P5 EVALUATE"]
+  P5 --> V{"Verdict"}
+  V -- COMPLETE --> P7["P7 REPORT"]
+  V -- CONTINUE --> P6["P6 FIX"] --> P4
+  V -- VERIFY --> P4
+  V -- BLOCK --> P7
+  P3 -.-> LG["loop-guard on stall"]

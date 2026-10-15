@@ -1,0 +1,9 @@
+flowchart TD
+  A["Ambiguity"] --> B{"Answer in repo or docs?"}
+  B -- yes --> C["Use it"]
+  B -- no --> D{"Material and costly if wrong?"}
+  D -- no --> E["Pick default, state assumption, proceed"]
+  D -- yes --> F["Ask max 3 questions with defaults"]
+  F --> G["Continue safe independent work"]
+  H["Destructive or external action"] --> F
+  R["Reverse engineering request"] --> Q["ALWAYS ask: with IDA or without IDA + authorization"]

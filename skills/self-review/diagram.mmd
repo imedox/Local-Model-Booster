@@ -1,0 +1,9 @@
+flowchart TD
+  A["Candidate solution"] --> B["Pass 1: requirements vs diff"]
+  B --> C["Pass 2: one lens at a time"]
+  C --> D["3 counterexamples"]
+  D --> E{"Evidence-backed defect?"}
+  E -- yes --> F["Fix, recheck"] --> G{"Pass < 2?"}
+  G -- yes --> C
+  G -- no --> H["Report"]
+  E -- no --> H

@@ -1,0 +1,9 @@
+flowchart TD
+  A["Prepare reply"] --> B["Detect user language"]
+  B --> C["Answer or result first"]
+  C --> D["Match depth to question"]
+  D --> E["Strip filler"]
+  E --> F{"Task changed things?"}
+  F -- yes --> G["Report: Result / Changed / Verified / Risks / Next"]
+  F -- no --> H["Short prose"]
+  G & H --> I["Send"]

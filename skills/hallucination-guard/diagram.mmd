@@ -1,0 +1,8 @@
+flowchart TD
+  A["Draft answer"] --> B["Scan for specifics: files, APIs, versions, lines, results"]
+  B --> C{"Observed this session?"}
+  C -- yes --> D["VERIFIED + evidence"]
+  C -- reasoned --> E["INFERRED + reasoning"]
+  C -- no --> F["UNKNOWN or delete"]
+  D & E & F --> G["Add not-verified line"]
+  G --> H["Final answer"]

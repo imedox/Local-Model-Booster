@@ -1,0 +1,9 @@
+flowchart TD
+  A["Code with I/O"] --> B["List trust boundaries and sinks"]
+  B --> C["Trace input to sink"]
+  C --> D{"Validated?"}
+  D -- yes --> E["Note safe"]
+  D -- no --> F{"Confirmed?"}
+  F -- yes --> G["Minimal fix + regression test"]
+  F -- no --> H["Mark PLAUSIBLE, investigate"]
+  G --> I["Re-scan fix"] --> J["Report by severity"]

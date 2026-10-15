@@ -1,0 +1,12 @@
+flowchart TD
+  A["Task"] --> B{"Size?"}
+  B -- Trivial --> C["Think <= 300"]
+  B -- Simple --> D["Think <= 1500"]
+  B -- Moderate --> E["Think <= 4000"]
+  B -- Hard --> F["Think <= 6500"]
+  C & D & E & F --> G["GOAL / FACTS / OPTIONS / DECISION"]
+  G --> H{"Decision made?"}
+  H -- yes --> I["Act or answer"]
+  H -- no --> J{"Budget nearly spent?"}
+  J -- yes --> K["Commit best option, flag UNKNOWN"]
+  J -- no --> G

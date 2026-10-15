@@ -1,0 +1,10 @@
+flowchart TD
+  A["Mode: with-ida"] --> B["bt rea-doctor -Provider ida -IdaConfig file"]
+  B --> C{"Ready?"}
+  C -- no --> D["Report error, retry max 2"]
+  D --> E["Ask user: continue without IDA?"]
+  C -- yes --> F["re-triage / re-strings"]
+  F --> G["open_binary provider ida"]
+  G --> H["binary_overview then targeted functions"]
+  H --> I["re-evidence OBS / INF / UNK"]
+  I --> J["close_binary"]

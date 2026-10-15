@@ -1,0 +1,12 @@
+flowchart TD
+  A["Changed function"] --> B{"Under 15 lines and no I/O?"}
+  B -- yes --> C["QUICK score"]
+  B -- no --> D["Score A-H with evidence"]
+  D --> E["Weighted raw score"]
+  E --> F{"Confirmed critical defect?"}
+  F -- yes --> G["Apply lowest cap"]
+  F -- no --> H["Final = raw"]
+  G & H --> I{"Score < 8?"}
+  I -- yes --> J["Fix top 3, rerun, rescore once"]
+  I -- no --> K["Report"]
+  J --> K

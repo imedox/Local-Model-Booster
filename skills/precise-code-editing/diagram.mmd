@@ -1,0 +1,10 @@
+flowchart TD
+  A["Need change"] --> B["Read exact region and callers"]
+  B --> C["Pick smallest change"]
+  C --> D["Unique anchor"]
+  D --> E["Apply one logical edit"]
+  E --> F["Re-read region"]
+  F --> G["Build / test"]
+  G --> H{"OK?"}
+  H -- no --> I["Fix or loop-guard"] --> B
+  H -- yes --> J["Review diff, drop accidental changes"]

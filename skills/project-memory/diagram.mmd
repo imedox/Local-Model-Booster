@@ -1,0 +1,9 @@
+flowchart TD
+  A["Session start"] --> B["Read MEMORY.md"]
+  B --> C["Re-verify cheap facts"]
+  C --> D["Work"]
+  D --> E["New verified fact?"]
+  E -- yes --> F["Add one dated line"]
+  E -- no --> G["Task end"]
+  F --> G
+  G --> H["Prune stale, keep <= 60 lines"]

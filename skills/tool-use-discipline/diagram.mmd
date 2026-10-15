@@ -1,0 +1,14 @@
+flowchart TD
+  A["Need a fact or change"] --> B{"Tool exists in list?"}
+  B -- no --> X["Report, pick alternative"]
+  B -- yes --> C["Validate args and safety class"]
+  C --> D{"Destructive?"}
+  D -- yes --> E["Ask authorization"]
+  D -- no --> F["Call once, wait"]
+  E --> F
+  F --> G["Check exit code and output"]
+  G --> H{"Error?"}
+  H -- no --> I["Record evidence"]
+  H -- yes --> J{"Retry count < 2?"}
+  J -- yes --> K["Change something, retry"] --> F
+  J -- no --> L["loop-guard"]

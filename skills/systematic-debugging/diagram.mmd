@@ -1,0 +1,11 @@
+flowchart TD
+  A["Bug"] --> B["Reproduce and record"]
+  B --> C["Minimize"]
+  C --> D["Hypothesis table"]
+  D --> E["Discriminating observations"]
+  E --> F["Root cause by evidence"]
+  F --> G["Smallest fix"]
+  G --> H["Rerun repro + regressions"]
+  H --> I{"Pass?"}
+  I -- yes --> J["Report"]
+  I -- no --> K["Revisit hypotheses / loop-guard"] --> D

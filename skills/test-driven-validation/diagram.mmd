@@ -1,0 +1,10 @@
+flowchart TD
+  A["Change planned"] --> B["Find or write failing test"]
+  B --> C["Implement"]
+  C --> D["Focused tests"]
+  D --> E["Build and analyzers"]
+  E --> F["Regression suite"]
+  F --> G["Evidence table"]
+  G --> H{"Any failed or not run?"}
+  H -- yes --> I["Investigate or state limit"]
+  H -- no --> J["Report verified"]

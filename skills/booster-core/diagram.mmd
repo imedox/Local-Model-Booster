@@ -1,0 +1,14 @@
+flowchart TD
+  A["User task"] --> R{"Reverse engineering?"}
+  R -- yes --> M["re-mode-gate: ask WITH IDA or WITHOUT IDA"]
+  M --> RE["re-with-ida or re-without-ida, then rea-reverse-engineering"]
+  R -- no --> B{"Starts with agent-auto?"}
+  B -- yes --> C["agent-auto"]
+  B -- no --> D["UNDERSTAND"]
+  D --> E["PLAN"] --> F["ACT"] --> G["VERIFY"] --> H["REPORT"]
+  D -.-> S1["instruction-compliance / repo-exploration / project-memory"]
+  E -.-> S2["structured-reasoning / task-tracking / thinking-budget"]
+  F -.-> S3["precise-code-editing / tool-use-discipline / git-checkpoints"]
+  G -.-> S4["test-driven-validation / self-review / security-review"]
+  H -.-> S5["hallucination-guard / response-style"]
+  G -- "failure" --> L["loop-guard"] --> E

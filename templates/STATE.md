@@ -1,0 +1,10 @@
+# STATE (handoff)
+GOAL:
+CONSTRAINTS:
+ACCEPTANCE (id: status):
+DECISIONS (what -> why):
+FILES TOUCHED:
+WORKING COMMANDS:
+FAILURES (symptom -> cause):
+OPEN QUESTIONS:
+NEXT ACTION:

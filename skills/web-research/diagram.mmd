@@ -1,0 +1,12 @@
+flowchart TD
+  A["Knowledge gap"] --> B{"Web available?"}
+  B -- no --> C["Local docs, package source, experiment, label INFERRED"]
+  B -- yes --> D["Precise versioned query"]
+  D --> E["Prefer official sources"]
+  E --> F["Open page, check version"]
+  F --> G["Evidence summary"]
+  G --> H["Implement"]
+  H --> I["Test"]
+  I --> J{"Fails?"}
+  J -- yes --> K["Search the specific failure, budget 8"] --> E
+  J -- no --> L["Report with sources"]

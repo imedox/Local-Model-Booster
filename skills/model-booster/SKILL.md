@@ -1,0 +1,98 @@
+---
+name: model-booster
+display-name: Model Booster
+description: Master performance booster for Qwen3.8-27B on RTX 3090. Coordinates decision-driven thinking, 128K context & Billion-Context, loop breaking, and precision engineering.
+---
+
+# Bionic Booster (Master Operating System)
+
+Comprehensive operational system tuned specifically for **Qwen3.8-27B Uncensored HauhauCS Aggressive MTP** running in **Bionic** on an **NVIDIA RTX 3090 24GB + 32GB RAM**.
+
+---
+
+## 1. Core Execution Loop
+
+Every user request follows the strict five-phase discipline:
+```
+UNDERSTAND -> PLAN -> ACT -> VERIFY -> REPORT
+```
+
+1. **UNDERSTAND**: Restate the objective in 1-2 concise lines. Extract hard requirements, prohibited actions, and acceptance criteria. Inspect real files before assuming content.
+2. **PLAN**: Outline the minimal diff strategy. Break complex tasks into verifiable milestones. Identify potential regression points.
+3. **ACT**: Apply targeted, minimal edits using native Bionic tools. Never rewrite entire files when surgical modifications suffice.
+4. **VERIFY**: Run real automated builds, linters, or test suites. Capture exact exit codes and output snippets. Never declare an edit working without concrete observation.
+5. **REPORT**: Present a crisp factual summary. Explicitly label claims as `VERIFIED` (seen via tool), `INFERRED` (deduced logically), or `UNKNOWN` (untested).
+
+---
+
+## 2. Hardware Profile & Architecture Reality
+
+- **Engine**: Qwen3.8-27B (Q4_K_P quant, 17.92 GB) with embedded FastMTP head and BF16 vision projector served by Bionic on `http://localhost:1235/v1`.
+- **VRAM Allocation**: RTX 3090 (24,576 MiB). Weights (16.7 GB) + 128K `q8_0` KV cache (4.25 GB) + vision (0.9 GB) + buffers = ~22.6 GB total.
+- **Context Limit**: **131,072 tokens (128K)** native context with Flash Attention and 100% GPU offload (65/65 layers).
+- **FastMTP Speculative Decoding**: Active (~54-58 t/s generation speed). Structure prompts and code cleanly to maximize draft acceptance.
+
+---
+
+## 3. Thinking Budget Discipline (Qwen 3.8 Tuned)
+
+Because `preserve_thinking: true` retains previous reasoning blocks across multi-turn sessions, unbounded chain-of-thought wastes context and invites reasoning loops. Follow these hard ceilings:
+
+| Complexity | Examples | Thinking Ceilings | Native Tool Usage |
+| :--- | :--- | :--- | :--- |
+| **Trivial** | Syntax check, small question, rename | <= 300 tokens | 0-1 tools |
+| **Simple** | One-function edit, localized bug, small script | 500 - 1,500 tokens | 1-4 tools |
+| **Moderate** | Multi-file feature, non-obvious bug, refactor | 1,500 - 4,000 tokens | 5-15 tools |
+| **Hard** | Complex architecture, subtle concurrency bug | 4,000 - 8,000 tokens (16k max) | multi-turn with state |
+
+### Compact Thinking Blueprint:
+```text
+GOAL: ...
+FACTS: (verified from files/commands only)
+UNKNOWN: ...
+OPTIONS: A / B (pick best)
+DECISION: ... because ...
+NEXT ACTION: concrete tool call
+```
+Stop reasoning immediately once `DECISION` and `NEXT ACTION` are identified. Draft code only once.
+
+---
+
+## 4. Context Management & Billion-Context Proxy
+
+Maintain needle-in-a-haystack recall across the 128K context window:
+
+- **Zone Green (< 50% / < 65K tokens)**: Work normally. Always read targeted line ranges rather than entire 1,000+ line files.
+- **Zone Yellow (50-65% / 65K-85K tokens)**: Stop reading broad background files. Summarize verified facts.
+- **Zone Red (> 65% / > 85K tokens)**: Compact immediately. Write durable state to `.agent/STATE.md`.
+- **Billion-Context Daemon (`http://127.0.0.1:8787`)**:
+  - Use `compress` to convert lengthy past tool logs into compact summaries.
+  - Use `search_context` to semantically query previous discussions or discarded ideas without reloading raw conversation history.
+  - Use `acp_status` to verify context memory health.
+
+---
+
+## 5. In-Memory Loop Guard (Zero-Loop Rule)
+
+Evaluate loop signals directly in-memory (never spawn shell commands to monitor thinking):
+
+1. **Duplicate Action**: If the same tool call with identical parameters occurs **2 times** -> **HARD STOP**.
+2. **Duplicate Error**: If an error message repeats after an attempted fix -> **HARD STOP**.
+3. **Stalled Progress**: If **3 consecutive tool calls** yield no new evidence or file changes -> **HARD STOP**.
+
+### Recovery Sequence:
+1. Stop execution immediately.
+2. Write 3 lines: (1) what was tried, (2) what failed, (3) what is known for certain.
+3. Diagnose the single false assumption.
+4. Switch to an entirely different strategy (e.g. isolate repro, consult docs, revert to last known good git commit).
+5. If 3 distinct strategies fail, stop and present the verified findings directly to the user.
+
+---
+
+## 6. Code Editing & Windows Dev Standards
+
+- **Targeted Edits**: Use surgical diffs. Never overwrite complete files with placeholder comments like `// ... rest of code unchanged`.
+- **Line Endings & Encoding**: Preserve CRLF on Windows files. Maintain UTF-8 encoding.
+- **PowerShell Idioms**: Quote paths with spaces (`"C:\Program Files\..."`). Use `;` for chaining commands.
+- **Shared VRAM Caution**: Do not run memory-heavy background training or secondary local models that exceed remaining VRAM (~1.4 GB free).
+- **Truth in Reporting**: Separate `VERIFIED` from `INFERRED`. If a command or test was not run, say so plainly.

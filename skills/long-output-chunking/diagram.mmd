@@ -1,0 +1,9 @@
+flowchart TD
+  A["Large output"] --> B["Outline"]
+  B --> C["Compilable skeleton"]
+  C --> D["Fill one section"]
+  D --> E["Check build or syntax"]
+  E --> F{"More sections?"}
+  F -- yes --> D
+  F -- no --> G["Final read, grep TODO and stubs"]
+  H["Truncated"] --> I["Read tail, resume at last full line"] --> D

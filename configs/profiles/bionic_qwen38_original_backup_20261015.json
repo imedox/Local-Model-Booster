@@ -1,0 +1,70 @@
+{
+  "preset": "",
+  "operation": {
+    "fields": [
+      {
+        "key": "llm.prediction.temperature",
+        "value": 0.8
+      },
+      {
+        "key": "llm.prediction.repeatPenalty",
+        "value": {
+          "checked": true,
+          "value": 1
+        }
+      },
+      {
+        "key": "llm.prediction.topKSampling",
+        "value": 20
+      },
+      {
+        "key": "llm.prediction.minPSampling",
+        "value": {
+          "checked": true,
+          "value": 0
+        }
+      },
+      {
+        "key": "llm.prediction.llama.presencePenalty",
+        "value": {
+          "checked": true,
+          "value": 1.5
+        }
+      }
+    ]
+  },
+  "load": {
+    "fields": [
+      {
+        "key": "llm.load.llama.autoFit",
+        "value": false
+      },
+      {
+        "key": "llm.load.contextLength",
+        "value": 98304
+      },
+      {
+        "key": "llm.load.llama.flashAttention",
+        "value": true
+      },
+      {
+        "key": "llm.load.llama.kCacheQuantizationType",
+        "value": {
+          "checked": true,
+          "value": "q8_0"
+        }
+      },
+      {
+        "key": "llm.load.llama.vCacheQuantizationType",
+        "value": {
+          "checked": true,
+          "value": "q8_0"
+        }
+      },
+      {
+        "key": "llm.load.numParallelSessions",
+        "value": 2
+      }
+    ]
+  }
+}

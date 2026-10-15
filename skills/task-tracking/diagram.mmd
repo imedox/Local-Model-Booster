@@ -1,0 +1,12 @@
+flowchart TD
+  A["Task with 3+ steps"] --> B["Write PLAN.md with acceptance and steps"]
+  B --> C["Mark one step doing"]
+  C --> D["Do step"]
+  D --> E["Run its check"]
+  E --> F{"Passed?"}
+  F -- yes --> G["Mark verified with evidence"]
+  F -- no --> H["Mark failed, add fix step"]
+  G --> I{"More steps?"}
+  H --> C
+  I -- yes --> C
+  I -- no --> J["Report; unchecked boxes = incomplete"]

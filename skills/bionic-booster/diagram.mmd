@@ -1,0 +1,12 @@
+flowchart TD
+  A["User Task Received"] --> B["UNDERSTAND: Restate goal & constraints"]
+  B --> C{"Context > 60%?"}
+  C -- Yes --> D["Billion-Context Compress & Search"]
+  C -- No --> E["PLAN: Minimal Surgical Diff"]
+  D --> E
+  E --> F["ACT: Native Bionic Tools"]
+  F --> G{"Failure / Repeat?"}
+  G -- ">= 2 identical" --> H["In-Memory Loop Guard: Hard Stop & Switch Strategy"]
+  H --> E
+  G -- "Success" --> I["VERIFY: Run Tests & Build"]
+  I --> J["REPORT: Verified vs Inferred"]

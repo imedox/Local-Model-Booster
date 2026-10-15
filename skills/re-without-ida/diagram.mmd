@@ -1,0 +1,10 @@
+flowchart TD
+  A["Mode: without-ida"] --> B{"Target"}
+  B -- "JS / Electron" --> C["REA JS analysis or re-asar"]
+  B -- ".NET" --> D["REA managed inspect or re-triage"]
+  B -- "APK / ZIP" --> E["REA inventory or re-archive"]
+  B -- "Native" --> F{"Ghidra or Hopper available?"}
+  F -- yes --> G["REA native with provider ghidra or hopper"]
+  F -- no --> H["re-triage + re-strings only"]
+  H --> I["State: no decompiler, shallow"]
+  I --> J["Offer switch to with-ida (ask)"]

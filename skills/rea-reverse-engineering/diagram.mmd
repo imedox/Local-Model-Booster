@@ -1,0 +1,11 @@
+flowchart TD
+  A["Mode recorded?"] -- no --> G["re-mode-gate"]
+  A -- yes --> B{"Target type"}
+  B -- "ASAR / JS tree" --> C["analyze_javascript_application / re-asar"]
+  B -- "Archive / APK / MSIX" --> D["inventory_artifact / re-archive"]
+  B -- ".NET" --> E["inspect_managed_artifact / re-triage"]
+  B -- "Native" --> F["re-triage then open_binary + binary_overview"]
+  B -- "Open browser or Electron" --> H["list_browser_targets / list_electron_targets"]
+  C & D & E & F & H --> I["Summary first, log evidence"]
+  I --> J["Report: OBS / INF / UNK"]
+  J --> K["close_binary"]
