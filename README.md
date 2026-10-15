@@ -1,6 +1,56 @@
 # Local-Model-Booster (for Bionic & LM Studio)
 
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6.svg?logo=windows)](README.md)
+[![Target GPU: RTX 3090 / 4090](https://img.shields.io/badge/GPU-RTX%203090%20%2F%204090%2024GB-76B900.svg?logo=nvidia)](README.md)
+[![Model: Qwen 3.8 27B](https://img.shields.io/badge/Model-Qwen3.8--27B--MTP-FF6F00.svg)](README.md)
+[![Context: 128K](https://img.shields.io/badge/Context-131%2C072%20tokens-blueviolet.svg)](README.md)
+[![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](README.md)
+
+</div>
+
 > **Supercharge local 27B-class LLMs (Qwen3.8-27B Uncensored HauhauCS Aggressive MTP on RTX 3090 24GB + 32GB RAM) into disciplined, high-speed, evidence-driven autonomous software engineers.**
+
+---
+
+## 🧭 Multi-OS Compatibility Notice
+
+> [!NOTE]
+> **Currently Optimized for Windows**: The automated 1-click installer (`.bat`, `.ps1`), Windows Scheduled Tasks, and CLI launchers (`bt.cmd`) are tailored for Windows 10/11 x64 systems.
+>
+> 🐧 🍎 **Linux / macOS Support**: The core skills, architectural principles, Mermaid flows, and Billion-Context proxy are cross-platform compatible. Native Bash scripts and systemd / launchd service templates are planned and community contributions are warmly welcomed!
+
+---
+
+## 🏛️ Master Architecture & Execution Flow
+
+The core engine operates on a disciplined 5-phase loop with integrated context compression and in-memory zero-loop protection:
+
+```mermaid
+flowchart TD
+    A["User Task Received"] --> B["1. UNDERSTAND<br/>Restate goal & hard constraints"]
+    B --> C{"Context Window > 60%?"}
+    C -- Yes --> D["Billion-Context Daemon<br/>Compress past turns & semantic search"]
+    C -- No --> E["2. PLAN<br/>Minimal surgical diff & milestones"]
+    D --> E
+    E --> F["3. ACT<br/>Surgical edits via native tools"]
+    F --> G{"Repeated Error / Stalled?"}
+    G -- ">= 2 duplicate errors" --> H["In-Memory Loop Guard<br/>HARD STOP & Switch Strategy"]
+    H --> E
+    G -- "Clean execution" --> I["4. VERIFY<br/>Automated builds, linters & tests"]
+    I --> J["5. REPORT<br/>Explicit VERIFIED vs INFERRED claims"]
+
+    style A fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
+    style B fill:#0f172a,stroke:#3b82f6,color:#fff
+    style D fill:#4338ca,stroke:#6366f1,color:#fff
+    style E fill:#0f172a,stroke:#3b82f6,color:#fff
+    style F fill:#0f172a,stroke:#10b981,color:#fff
+    style H fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#fff
+    style I fill:#0f172a,stroke:#10b981,color:#fff
+    style J fill:#047857,stroke:#10b981,stroke-width:2px,color:#fff
+```
 
 ---
 
@@ -69,6 +119,11 @@ Switch profiles anytime via `C:\tools\switch_*.bat` desktop shortcuts or `switch
 
 ```text
 Local-Model-Booster/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml        <-- Structured bug reporting form
+│   │   └── feature_request.yml   <-- Feature & profile suggestion form
+│   └── PULL_REQUEST_TEMPLATE.md  <-- Clean pull request checklist
 ├── installer/
 │   ├── install.bat               <-- 1-Click double-click Windows installer
 │   ├── install.ps1               <-- Complete PowerShell setup automation

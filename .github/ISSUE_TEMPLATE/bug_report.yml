@@ -1,0 +1,49 @@
+name: Bug report
+description: Create a report to help improve Local-Model-Booster
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please provide as much detail as possible.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment & Hardware
+      description: What GPU, VRAM, and OS are you running?
+      placeholder: "e.g. RTX 3090 24GB, 32GB RAM, Windows 11 / Windows 10 Ghost Spectre"
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Model & Quantization
+      description: Which model and GGUF quantization are you using?
+      placeholder: "e.g. Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-Q4_K_P.gguf"
+    validations:
+      required: true
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime / App
+      options:
+        - Bionic
+        - LM Studio
+        - llama.cpp
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem Description
+      description: A clear and concise description of what went wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Error Output
+      description: Paste relevant logs from Bionic, LM Studio, or Billion-Context (e.g. bili.log).
+      render: shell
