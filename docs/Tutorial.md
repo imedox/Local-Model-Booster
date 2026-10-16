@@ -234,6 +234,10 @@ C:\Users\Administrator\Documents\Workspace\Local-bunchmark\1-Click-Installer\ins
 5. **Deploys Bionic Skills & Tools**: Copies all 33 tuned skills (including `bionic-booster`) to `~/.lmstudio/skills\` and deploys all 35 helper tools and `bt.cmd` into `C:\tools\`.
 6. **Verifies Connectivity**: Performs TCP health checks against port 8787 and port 1235 and displays a green verified report.
 
+> [!NOTE]
+> **Claude Code CLI is Optional**: The 1-click automated installer is designed to configure the native **Bionic / LM Studio** agent runtime, the background Billion-Context daemon, and all helper CLI tools. It **does NOT** install Claude Code CLI.
+> If you wish to use Claude Code CLI, it is completely optional: simply follow the instructions in [Section 14](#14-claude-code-cli--lm-studio--billion-context-integration) or the complete guide in [docs/CLAUDE_CODE.md](CLAUDE_CODE.md).
+
 ---
 
 ## 11. Skill Helper Tools (`C:\tools\bt.cmd`) & Preventing Skill Degradation

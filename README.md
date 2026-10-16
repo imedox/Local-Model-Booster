@@ -86,13 +86,17 @@ installer\install.bat
 4. Deploys the master **`bionic-booster`** and all 33 modular skills to `~/.lmstudio/skills\`.
 5. Adds `C:\tools\` to the Windows User & Machine `PATH` so `bt <tool>` works anywhere.
 
+> [!NOTE]
+> **Claude Code CLI is Optional**: The 1-click installer automates setup specifically for **Bionic / LM Studio**, Billion-Context, and the 35 helper tools. It **does NOT** install or configure Anthropic's Claude Code CLI.
+> If you wish to connect Claude Code CLI to your local setup, it is completely optional — simply follow the standalone configuration steps in [docs/CLAUDE_CODE.md](docs/CLAUDE_CODE.md).
+
 ---
 
 ## 🧭 Supported Agent Frontends
 
 Local-Model-Booster supports two first-class autonomous agent interfaces:
 
-### 1. 🤖 Bionic Agent (LM Studio GUI)
+### 1. 🤖 Bionic Agent (LM Studio GUI) — Default & Automated
 1. Open **Bionic** $\rightarrow$ Click **Settings** (gear icon bottom left) $\rightarrow$ **Skills** (*Compétences Bionic*).
 2. **Recommended Setting**: Leave **ONLY `Bionic Booster`** checked (uncheck the other modular skills to avoid injecting ~5,000 characters of extra descriptions into every prompt).
 3. The master `Bionic Booster` skill already includes:
@@ -104,11 +108,11 @@ Local-Model-Booster supports two first-class autonomous agent interfaces:
    - Direct access to the 35 CLI helper tools (`C:\tools\bt.cmd`)
 4. Any modular skill can still be summoned on-demand anytime in chat by typing `@<skill-name>`.
 
-### 2. ⚡ Claude Code CLI (Anthropic Terminal Agent)
-Anthropic's official **Claude Code CLI** runs seamlessly against your local LM Studio / Bionic server using **Billion-Context** real-time conversation compression:
+### 2. ⚡ Claude Code CLI (Anthropic Terminal Agent) — Optional
+Anthropic's official **Claude Code CLI** is an optional frontend that runs seamlessly against your local LM Studio / Bionic server using **Billion-Context** real-time conversation compression:
 1. **Proxy Config**: Set `context: 98304` in `~/.config/billion-context/billion-context.json`.
 2. **Claude Config**: Configure `ANTHROPIC_BASE_URL: "http://127.0.0.1:8787/bili/http://127.0.0.1:1235"` and map model tiers in `~/.claude/settings.json`.
-3. **One-Command Launch**: Add the provided PowerShell helper functions to `$PROFILE` and launch with `bclaude`.
+3. **One-Command Launch**: Add the provided PowerShell session-tracking wrapper functions to `$PROFILE` and launch with `bclaude`.
 📖 *See the step-by-step reproduction and verification guide in [docs/CLAUDE_CODE.md](docs/CLAUDE_CODE.md).*
 
 ---

@@ -2,6 +2,9 @@
 
 > **Complete guide to connecting Anthropic's Claude Code CLI to local LLMs (LM Studio / Bionic) with Billion-Context real-time context compression on Windows 10/11.**
 
+> [!NOTE]
+> **Optional Integration**: This guide covers an **optional frontend setup**. The automated 1-click installer (`installer/install.bat`) provisions Bionic, Billion-Context, and local CLI tools, but does **not** install Claude Code CLI. Follow this guide if you wish to add Claude Code CLI support to your local setup.
+
 ---
 
 ## 📑 Table of Contents
