@@ -318,5 +318,54 @@ python scripts/validate_skills.py
 3. **Diagrams**: Confirms that every skill has an accompanying `diagram.mmd` Mermaid flow.
 4. **Tool Linkage**: Parses every `SKILL.md` for `bt <tool>` calls and checks that `tools/<tool>.ps1` exists.
 
+---
+
+## 14. Claude Code CLI + LM Studio + Billion-Context Integration
+
+You can easily route Anthropic's official **Claude Code CLI** to your local LM Studio / Bionic server through the **Billion-Context** proxy on Windows.
+
+### Architectural Flow:
+```text
+Claude Code CLI (terminal)
+   │
+   ▼ ANTHROPIC_BASE_URL: http://127.0.0.1:8787/bili/http://127.0.0.1:1235
+Billion-Context Proxy (:8787)
+   │ (compress turns on-the-fly at 45% / 75% thresholds)
+   ▼ Anthropic /v1/messages forwarding
+LM Studio / Bionic (:1235)
+   │
+   ▼ (Qwen 3.8 27B, 128K context, q8_0 KV cache)
+RTX 3090 / GPU
+```
+
+### Essential Settings (`~/.claude/settings.json`):
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787/bili/http://127.0.0.1:1235",
+    "ANTHROPIC_AUTH_TOKEN": "lmstudio",
+    "ANTHROPIC_MODEL": "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "DISABLE_AUTO_COMPACT": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "NO_PROXY": "127.0.0.1,localhost"
+  },
+  "model": "qwen3.8-27b-uncensored-hauhaucs-aggressive-mtp"
+}
+```
+
+### Launching with Billion-Context:
+Add `Start-Bili` and `bclaude` helper functions to your PowerShell `$PROFILE` (see full guide). Launch with:
+```powershell
+bclaude
+```
+
+📖 **Detailed Setup & Troubleshooting Guide**:
+For step-by-step reproduction instructions, PowerShell profiles, background services, and troubleshooting, read [docs/CLAUDE_CODE.md](CLAUDE_CODE.md).
+
+
 
 
