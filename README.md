@@ -7,6 +7,7 @@
 [![Target GPU: RTX 3090 / 4090](https://img.shields.io/badge/GPU-RTX%203090%20%2F%204090%2024GB-76B900.svg?logo=nvidia)](README.md)
 [![Model: Qwen 3.8 27B](https://img.shields.io/badge/Model-Qwen3.8--27B--MTP-FF6F00.svg)](README.md)
 [![Context: 128K](https://img.shields.io/badge/Context-131%2C072%20tokens-blueviolet.svg)](README.md)
+[![Claude Code: Supported](https://img.shields.io/badge/Claude%20Code-CLI%20Ready-blueviolet.svg)](docs/CLAUDE_CODE.md)
 [![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](README.md)
 
 </div>
@@ -61,6 +62,7 @@ flowchart TD
 - **128K Context (131,072 tokens) + Billion-Context Proxy**: Seamless coordination between the 128K native context window (`q8_0` KV cache + Flash Attention) and the local [Billion-Context](https://github.com/ranxianglei/billion-context) proxy daemon for hierarchical memory compression and semantic retrieval.
 - **In-Memory Zero-Loop Guard**: Hard-coded in-memory break rule (stops immediately if the same tool call or error occurs twice) without spawning external shell scripts.
 - **6 Production-Tuned Profiles**: Ready-to-use configurations for Coding (`01_coding` default), Tool Use, General Operation, Long Tasks, Max Intelligence, and Max Speed.
+- **Claude Code CLI + Billion-Context Integration**: Complete setup guide and PowerShell launcher to connect Anthropic's official Claude Code CLI directly into your local LM Studio / Bionic server through Billion-Context real-time compression ([docs/CLAUDE_CODE.md](docs/CLAUDE_CODE.md)).
 - **35 Windows CLI Helper Tools (`bt.cmd`)**: Safe, capped tools for repo mapping (`bt repo-map`), symbol search (`bt find-symbol`), test running (`bt run-checks`), VRAM monitoring (`bt gpu-status`), and git checkpoints.
 - **Turnkey 1-Click Automated Installer**: A zero-config automated setup script (`installer/install.bat`) that installs the Billion-Context daemon, registers the background service, deploys profiles, and installs Bionic skills automatically.
 
@@ -139,6 +141,7 @@ Local-Model-Booster/
 ├── templates/                    <-- STATE.md, PLAN.md, MEMORY.md templates
 ├── docs/
 │   ├── Tutorial.md               <-- Complete step-by-step guide
+│   ├── CLAUDE_CODE.md            <-- Claude Code + LM Studio + Billion-Context setup guide
 │   ├── TEST_PROMPTS.md           <-- Verification prompts for each profile
 │   ├── DIAGRAMS.md               <-- Mermaid workflow diagrams for every skill
 │   └── TOOLS.md                  <-- CLI tools reference manual
