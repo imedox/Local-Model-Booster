@@ -1,4 +1,4 @@
-# Local-Model-Booster (for Bionic & LM Studio)
+# Local-Model-Booster (for Bionic & Claude Code with LM Studio)
 
 <div align="center">
 
@@ -7,12 +7,13 @@
 [![Target GPU: RTX 3090 / 4090](https://img.shields.io/badge/GPU-RTX%203090%20%2F%204090%2024GB-76B900.svg?logo=nvidia)](README.md)
 [![Model: Qwen 3.8 27B](https://img.shields.io/badge/Model-Qwen3.8--27B--MTP-FF6F00.svg)](README.md)
 [![Context: 128K](https://img.shields.io/badge/Context-131%2C072%20tokens-blueviolet.svg)](README.md)
-[![Claude Code: Supported](https://img.shields.io/badge/Claude%20Code-CLI%20Ready-blueviolet.svg)](docs/CLAUDE_CODE.md)
+[![Bionic Agent: Native](https://img.shields.io/badge/Bionic%20Agent-Native%20Skills-0078D6.svg)](README.md)
+[![Claude Code: CLI Ready](https://img.shields.io/badge/Claude%20Code-CLI%20Ready-blueviolet.svg)](docs/CLAUDE_CODE.md)
 [![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](README.md)
 
 </div>
 
-> **Supercharge local 27B-class LLMs (Qwen3.8-27B Uncensored HauhauCS Aggressive MTP on RTX 3090 24GB + 32GB RAM) into disciplined, high-speed, evidence-driven autonomous software engineers.**
+> **Supercharge local 27B-class LLMs (Qwen3.8-27B Uncensored HauhauCS Aggressive MTP on RTX 3090 24GB + 32GB RAM) into disciplined, high-speed, evidence-driven autonomous software engineers — fully compatible with both the Bionic GUI Agent and Anthropic's Claude Code CLI using LM Studio & Billion-Context.**
 
 ---
 
@@ -87,8 +88,11 @@ installer\install.bat
 
 ---
 
-## 🧭 Bionic Skills Setup
+## 🧭 Supported Agent Frontends
 
+Local-Model-Booster supports two first-class autonomous agent interfaces:
+
+### 1. 🤖 Bionic Agent (LM Studio GUI)
 1. Open **Bionic** $\rightarrow$ Click **Settings** (gear icon bottom left) $\rightarrow$ **Skills** (*Compétences Bionic*).
 2. **Recommended Setting**: Leave **ONLY `Bionic Booster`** checked (uncheck the other modular skills to avoid injecting ~5,000 characters of extra descriptions into every prompt).
 3. The master `Bionic Booster` skill already includes:
@@ -99,6 +103,13 @@ installer\install.bat
    - Precise surgical code editing
    - Direct access to the 35 CLI helper tools (`C:\tools\bt.cmd`)
 4. Any modular skill can still be summoned on-demand anytime in chat by typing `@<skill-name>`.
+
+### 2. ⚡ Claude Code CLI (Anthropic Terminal Agent)
+Anthropic's official **Claude Code CLI** runs seamlessly against your local LM Studio / Bionic server using **Billion-Context** real-time conversation compression:
+1. **Proxy Config**: Set `context: 98304` in `~/.config/billion-context/billion-context.json`.
+2. **Claude Config**: Configure `ANTHROPIC_BASE_URL: "http://127.0.0.1:8787/bili/http://127.0.0.1:1235"` and map model tiers in `~/.claude/settings.json`.
+3. **One-Command Launch**: Add the provided PowerShell helper functions to `$PROFILE` and launch with `bclaude`.
+📖 *See the step-by-step reproduction and verification guide in [docs/CLAUDE_CODE.md](docs/CLAUDE_CODE.md).*
 
 ---
 
