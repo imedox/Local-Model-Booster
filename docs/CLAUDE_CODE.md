@@ -197,42 +197,68 @@ if (!(Test-Path $PROFILE)) { New-Item -Path $PROFILE -ItemType File -Force }
 notepad $PROFILE
 ```
 
-Append the following functions:
+Paste the following session-tracking wrapper functions into your profile:
 
 ```powershell
-function Start-Bili {
-    $health = 'http://127.0.0.1:8787/__bili/health'
-    try { Invoke-RestMethod $health -TimeoutSec 1 | Out-Null; return } catch {}
+$global:BiliHealth   = 'http://127.0.0.1:8787/__bili/health'
+$global:BiliSessions = Join-Path $env:TEMP 'bili-sessions'
 
+function Test-Bili {
+    try { Invoke-RestMethod $global:BiliHealth -TimeoutSec 1 | Out-Null; $true } catch { $false }
+}
+
+function Start-Bili {
+    if (Test-Bili) { return }
     $node = 'C:\Program Files\nodejs\node.exe'
     $bili = "$env:APPDATA\npm\node_modules\billion-context\dist\index.js"
     Start-Process -FilePath $node -ArgumentList "`"$bili`"", 'start' -WindowStyle Hidden
-
     for ($i = 0; $i -lt 30; $i++) {
         Start-Sleep -Milliseconds 500
-        try { Invoke-RestMethod $health -TimeoutSec 1 | Out-Null; return } catch {}
+        if (Test-Bili) { return }
     }
-    Write-Warning 'Billion-Context did not become healthy on port 8787 within 15s'
+    Write-Warning 'bili did not become healthy on port 8787'
 }
 
-# Plain claude: auto-starts bili if needed, then launches claude
-function claude {
-    Start-Bili
-    $exe = Get-Command claude -CommandType Application | Select-Object -First 1 -ExpandProperty Source
-    & $exe @args
-}
-
-# Tested combination: auto-starts bili if needed, then invokes bili launcher
-function bclaude {
-    Start-Bili
-    bili claude @args
-}
-
-# Graceful termination of background bili daemon
 function Stop-Bili {
     Get-CimInstance Win32_Process -Filter "Name='node.exe'" |
         Where-Object { $_.CommandLine -like '*billion-context*' } |
         ForEach-Object { Stop-Process -Id $_.ProcessId }
+}
+
+function Enter-BiliSession {
+    New-Item -ItemType Directory -Force -Path $global:BiliSessions | Out-Null
+    Set-Content -Path (Join-Path $global:BiliSessions "$PID.txt") -Value (Get-Date)
+}
+
+function Exit-BiliSession {
+    Remove-Item (Join-Path $global:BiliSessions "$PID.txt") -ErrorAction SilentlyContinue
+    $alive = Get-ChildItem $global:BiliSessions -Filter *.txt -ErrorAction SilentlyContinue |
+        Where-Object {
+            if (Get-Process -Id ([int]$_.BaseName) -ErrorAction SilentlyContinue) { $true }
+            else { Remove-Item $_.FullName -ErrorAction SilentlyContinue; $false }
+        }
+    if (-not $alive) { Stop-Bili }
+}
+
+function claude {
+    Enter-BiliSession
+    try {
+        Start-Bili
+        $exe = Get-Command claude -CommandType Application | Select-Object -First 1 -ExpandProperty Source
+        & $exe @args
+    } finally {
+        Exit-BiliSession
+    }
+}
+
+function bclaude {
+    Enter-BiliSession
+    try {
+        Start-Bili
+        bili claude @args
+    } finally {
+        Exit-BiliSession
+    }
 }
 ```
 
@@ -240,6 +266,21 @@ Reload your profile:
 ```powershell
 . $PROFILE
 ```
+
+### 🧠 How the Session Lifecycle Manager Works:
+- **Reference-Counted Session Markers**: Each `claude` or `bclaude` launch writes a marker file named after the active PowerShell window's Process ID (`$PID.txt`) into `%TEMP%\bili-sessions\`.
+- **Automatic Multi-Window Safety**: If you run multiple Claude Code terminal windows concurrently, closing one window will **not** kill the proxy for another window that is still actively working.
+- **Auto-Stop on Last Exit**: When Claude exits (`/exit`, `Ctrl+C`, or normal termination), the marker is removed and any stale markers from terminated windows are purged. If no live sessions remain, `Stop-Bili` terminates the proxy automatically.
+- **Dead Window Garbage Collection**: If a window crashed or was closed abruptly, the next session automatically cleans up orphaned markers by verifying whether the PID is still alive.
+
+### 💡 Important Details to Know:
+- **Closing via the `X` Window Button**: Closing the terminal window directly via the `X` button kills PowerShell immediately before `finally` blocks can execute. In that event, `bili` stays running until your next Claude session exits (which cleans up stale PID markers and stops it), or you can execute `Stop-Bili` manually.
+- **Startup Latency**: When no proxy is running, launching Claude takes a few seconds while `bili` boots up in the background. Compression state is safely persisted to disk, and conversations seamlessly reattach to past sessions across restarts.
+- **Verification**: Run `claude` (or `bclaude`), exit via `/exit`, and then test:
+  ```powershell
+  curl.exe -s http://127.0.0.1:8787/__bili/health
+  ```
+  It should fail to connect, confirming the daemon shut down cleanly once the last session left.
 
 ---
 
