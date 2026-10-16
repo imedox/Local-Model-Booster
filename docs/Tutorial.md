@@ -357,14 +357,19 @@ RTX 3090 / GPU
 }
 ```
 
-### Launching with Billion-Context:
-Add `Start-Bili` and `bclaude` helper functions to your PowerShell `$PROFILE` (see full guide). Launch with:
+### Smart Multi-Session Lifecycle Wrapper:
+The PowerShell profile functions track active Claude Code sessions using temporary PID markers in `%TEMP%\bili-sessions`:
+- Automatically launches `bili` in the background when the first Claude session opens.
+- Keeps `bili` running safely if multiple terminal windows are opened simultaneously.
+- Gracefully terminates `bili` when the last active Claude session exits.
+
+Launch with:
 ```powershell
 bclaude
 ```
 
 📖 **Detailed Setup & Troubleshooting Guide**:
-For step-by-step reproduction instructions, PowerShell profiles, background services, and troubleshooting, read [docs/CLAUDE_CODE.md](CLAUDE_CODE.md).
+For step-by-step reproduction instructions, PowerShell profile code, background services, and troubleshooting, read [docs/CLAUDE_CODE.md](CLAUDE_CODE.md).
 
 
 
