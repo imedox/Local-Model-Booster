@@ -109,4 +109,5 @@ All 35 specialized helper tools are pre-installed at `C:\tools\` (registered in 
 - `bt gpu-status` : Check free VRAM on RTX 3090 before heavy tests.
 - `bt git-checkpoint` : Safe git branching and commit checkpoints.
 - `bt find-leftovers` : Catch placeholder stubs, TODOs, and unfinished ellipses.
+- `bt re-ida-export` : Export reverse engineering findings to color-coded IDAPython script for IDA Pro.
 

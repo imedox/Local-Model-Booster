@@ -39,6 +39,7 @@ Without install: `tools\bt.cmd <tool> <args>`.
 | re-archive | List/extract APK/JAR/MSIX/ZIP with flags (zip-slip safe) | rea-reverse-engineering |
 | re-diff-dirs | Compare two extracted app versions by SHA256 | rea-reverse-engineering |
 | re-evidence | Evidence log: OBS / INF (needs basis) / UNK | re-evidence-discipline |
+| re-ida-export | Export reverse engineering findings to color-coded IDAPython script for IDA Pro (Alt + F7) | re-without-ida, rea-reverse-engineering, bionic-booster |
 | skill-validate | Validate skill structure | maintenance |
 
 Reverse-engineering tools (re-*, rea-*) require `bt re-mode -Set with-ida|without-ida -Authorized yes` first; they exit with code 5 until the user has answered. IDA, ida-pro-mcp, Ghidra and Hopper are installed and licensed by the user; REA and these tools never install or activate them.
