@@ -126,4 +126,28 @@ When inspecting native binaries (`.exe`, `.dll`), .NET assemblies, or unpacked t
 2. **Offline Static Triage**: Run `bt re-triage <binary>` or `rea_run("re-triage", ...)` first. Never claim dynamic execution behavior from static analysis.
 3. **Evidence Discipline**: Record findings with explicit IDs (`EV-XXXX`). Explicitly separate `VERIFIED` facts from `INFERRED` hypotheses.
 
+---
+
+## 9. Live Knowledge Retrieval & Grounding (Web, Microsoft-Learn & Context7 MCP)
+
+Because a local 27B model's static pre-trained weights cannot contain future library updates, breaking framework changes, or obscure OS internals, **never guess or hallucinate API signatures**. Use live external retrieval whenever uncertain:
+
+1. **Research Triggers**:
+   - Unfamiliar Win32/NT APIs, undocumented PE structures, COM interfaces, or driver callbacks.
+   - Modern framework or library version differences (.NET 8/9, Node 22+, Python 3.12+, modern C++).
+   - Compiler errors or unexplained crashes after reading relevant code.
+   - Need exact authoritative API prototypes before writing patch code or IDAPython exports.
+
+2. **First-Class Retrieval Channels**:
+   - **Microsoft-Learn MCP (`microsoft-learn`)**: Primary authority for Windows APIs, Win32 subsystems, kernel structures, and .NET documentation.
+   - **Context7 MCP (`context7`)**: Primary authority for up-to-date open-source library docs and package APIs.
+   - **Web Search & Scraping (Bionic Web Search / `bt fetch-page`)**: Search GitHub issues, release changelogs, and official tech blogs.
+     - CLI fallback: `bt fetch-page -Url <https url> -MaxChars 6000` to safely scrape plain-text documentation without context flooding.
+
+3. **Query & Evidence Discipline**:
+   - Build precise, version-pinned queries (e.g. `Win32 VirtualAllocEx protection flags x64`).
+   - Never put proprietary code, game assets, or private tokens into external web search queries.
+   - Always synthesize retrieved docs into verified, testable code and cite the source URL.
+
+
 
