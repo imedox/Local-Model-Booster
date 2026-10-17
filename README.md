@@ -259,6 +259,19 @@ OK
 
 ---
 
+## ⚖️ Legal Disclaimer & End-User Responsibility Notice
+
+This project, its documentation, skills, and command-line helper tools are provided exclusively for **authorized software engineering, defensive security auditing, interoperability analysis, and research on software you own or have explicit permission to inspect**.
+
+1. **Owner Rights & Sole Responsibility**:
+   - The end-user/operator of this software acknowledges and agrees that they are **solely, individually, and legally responsible** for any and all actions, executions, analyses, or derivative works performed using these tools.
+   - When inspecting, debugging, or reverse-engineering applications, game binaries, or memory layouts, the user affirms that they either **own the target software**, possess explicit authorization from the rights holder, or are operating within lawful statutory exceptions (such as legitimate reverse engineering for interoperability, personal ownership rights, or defensive vulnerability research).
+2. **"AS-IS" Warranty Disclaimer**:
+   - As declared in the [MIT License](LICENSE), this software is provided *"AS IS", without warranty of any kind, express or implied*. Under no circumstances shall the authors, maintainers, or contributors be held liable for any claim, damages, or legal consequences arising from the use, misuse, or application of this software by the end-user.
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
