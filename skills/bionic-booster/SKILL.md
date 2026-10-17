@@ -109,5 +109,21 @@ All 35 specialized helper tools are pre-installed at `C:\tools\` (registered in 
 - `bt gpu-status` : Check free VRAM on RTX 3090 before heavy tests.
 - `bt git-checkpoint` : Safe git branching and commit checkpoints.
 - `bt find-leftovers` : Catch placeholder stubs, TODOs, and unfinished ellipses.
+- `bt re-triage <file>` : Fast PE32+ static triage (headers, entropy, imports, packer signatures).
 - `bt re-ida-export` : Export reverse engineering findings to color-coded IDAPython script for IDA Pro.
+
+---
+
+## 8. Reverse Engineering & REA Meta-Gateway
+
+When inspecting native binaries (`.exe`, `.dll`), .NET assemblies, or unpacked targets:
+1. **Lightweight REA Meta-Gateway**: Always use the 5 surgical REA MCP tools instead of loading raw 200+ tool schemas:
+   - `rea_catalog(filter="...")`: Discover any of the 207 REA capabilities or CLI tools.
+   - `rea_run(tool_name="...", command="...", cwd="...")`: Execute any reverse engineering command with output intercepted into `C:\REA-Context`.
+   - `rea_search_evidence(query="...", evidence_id="...")`: Sub-millisecond FTS5 search across captured dumps on NVMe.
+   - `rea_read_chunk(evidence_id="...", start_line=N, end_line=M)`: Read surgical line slices without context bloat.
+   - `rea_export_ida(annotations=[...])`: Export triage findings to color-coded IDAPython patch script (`C:\REA-Context\ida_patch.py`).
+2. **Offline Static Triage**: Run `bt re-triage <binary>` or `rea_run("re-triage", ...)` first. Never claim dynamic execution behavior from static analysis.
+3. **Evidence Discipline**: Record findings with explicit IDs (`EV-XXXX`). Explicitly separate `VERIFIED` facts from `INFERRED` hypotheses.
+
 
