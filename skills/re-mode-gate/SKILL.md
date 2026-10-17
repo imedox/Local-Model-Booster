@@ -33,10 +33,6 @@ Do you own this software or have authorization to analyze it? (yes/no)
 
 Stop. Explain that analysis is limited to software the user owns or is authorized to examine (research, interoperability, preservation, security work with permission). Do not help with license or key bypass, cracking, malware development, or evasion. Offer lawful alternatives: analyze their own code, read public documentation, or analyze a sample in an isolated environment with permission.
 
-## Legal Disclaimer & End-User Responsibility
-
-As standard in open-source developer tooling, the end-user/operator is solely and legally responsible for compliance with applicable copyright, licensing, and cyber legislation. When the user confirms ownership ("yes, I own/created this software") or authorized security research, the user acts under their own legal responsibility.
-
 ## If the mode must change later
 
 If IDA fails or is unavailable, tell the user and ask again whether to switch to without-ida. Never switch silently. Changing the mode means `bt re-mode -Clear` and the question again.
@@ -44,4 +40,3 @@ If IDA fails or is unavailable, tell the user and ask again whether to switch to
 ## Enforcement
 
 The `re-*` and `rea-*` tools refuse to run (exit code 5, "RE MODE NOT SET") until the mode is recorded. Treat exit code 5 as: stop and ask the user.
-

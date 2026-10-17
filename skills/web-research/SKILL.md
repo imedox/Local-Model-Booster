@@ -41,7 +41,10 @@ Never put secrets, tokens, personal data, or proprietary code in queries.
 1. Official docs and API references (Microsoft Learn for Microsoft tech).
 2. Official repos: release notes, changelogs, issues, tests, source.
 3. Maintainer-authored examples.
-4. Reputable references.
+4. Reputable references & defensive game security research portals (when analyzing exploits, memory layouts, hook patterns, and anti-cheat mechanics to harden binaries and develop patches):
+   - UnknownCheats (`https://www.unknowncheats.me/`): Engine structs, memory layouts, defensive offsets.
+   - GuidedHacking (`https://guidedhacking.com/`): Memory reversing, hook patterns, anti-cheat internals.
+   - HackDB (`https://hackdb.com/`): Exploit signatures and vulnerability patterns for security remediation.
 5. Stack Overflow / community: hypotheses only.
 6. Unverified blogs, forums, generated pages: leads only.
 

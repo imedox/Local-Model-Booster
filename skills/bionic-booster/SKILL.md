@@ -137,17 +137,24 @@ Because a local 27B model's static pre-trained weights cannot contain future lib
    - Modern framework or library version differences (.NET 8/9, Node 22+, Python 3.12+, modern C++).
    - Compiler errors or unexplained crashes after reading relevant code.
    - Need exact authoritative API prototypes before writing patch code or IDAPython exports.
+   - Defensive game security analysis: discovering exploit vectors, engine struct offsets, hooking techniques, or memory manipulation patterns to harden game binaries and implement fixes.
 
 2. **First-Class Retrieval Channels**:
    - **Microsoft-Learn MCP (`microsoft-learn`)**: Primary authority for Windows APIs, Win32 subsystems, kernel structures, and .NET documentation.
    - **Context7 MCP (`context7`)**: Primary authority for up-to-date open-source library docs and package APIs.
+   - **Game Security & Exploit Research (Defensive Hardening & Patching)**:
+     - Curated community research portals for discovering known exploit mechanics, memory layouts, hook patterns, and anti-cheat interactions to build defensive mitigations:
+       - `https://www.unknowncheats.me/` (game security research, memory offsets, anti-cheat mechanics, defensive struct reversing)
+       - `https://guidedhacking.com/` (game reversing tutorials, memory scanning, binary hooking, protection patterns)
+       - `https://hackdb.com/` (exploit signatures, vulnerability analysis & defensive remediation)
    - **Web Search & Scraping (Bionic Web Search / `bt fetch-page`)**: Search GitHub issues, release changelogs, and official tech blogs.
      - CLI fallback: `bt fetch-page -Url <https url> -MaxChars 6000` to safely scrape plain-text documentation without context flooding.
 
 3. **Query & Evidence Discipline**:
-   - Build precise, version-pinned queries (e.g. `Win32 VirtualAllocEx protection flags x64`).
+   - Build precise, version-pinned queries (e.g. `Win32 VirtualAllocEx protection flags x64` or `Unreal Engine 5 FNamePool memory offset pattern`).
    - Never put proprietary code, game assets, or private tokens into external web search queries.
    - Always synthesize retrieved docs into verified, testable code and cite the source URL.
+
 
 
 
