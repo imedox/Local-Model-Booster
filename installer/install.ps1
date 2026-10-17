@@ -161,11 +161,19 @@ if (-not $portOpen) {
     Write-Host "  [OK] Billion-Context is active and listening on port 8787." -ForegroundColor Green
 }
 
+function Get-SourceDir($name) {
+    $p = Join-Path $installerRoot $name
+    if (Test-Path $p) { return $p }
+    $pParent = Join-Path (Split-Path -Parent $installerRoot) $name
+    if (Test-Path $pParent) { return $pParent }
+    return $null
+}
+
 # ------------------------------------------------------------------------------
 # STEP 3: Configure MCP Integration (LM Studio / Bionic)
 # ------------------------------------------------------------------------------
 Write-Host ""
-Write-Host "[3/6] Setting up Billion-Context MCP Server..." -ForegroundColor Cyan
+Write-Host "[3/6] Setting up Billion-Context & REA Gateway MCP Servers..." -ForegroundColor Cyan
 
 $mcpPath = Join-Path $env:USERPROFILE ".lmstudio\mcp.json"
 $mcpConfig = @{ mcpServers = @{} }
@@ -181,14 +189,21 @@ if (-not $mcpConfig.mcpServers) {
     $mcpConfig = [PSCustomObject]@{ mcpServers = [PSCustomObject]@{} }
 }
 
+# Billion-Context MCP
 $mcpConfig.mcpServers | Add-Member -Name "billion-context" -MemberType NoteProperty -Value ([PSCustomObject]@{
     command = $nodeExe
     args = @($distMcp)
 }) -Force
 
+# REA Meta-Gateway MCP (5 surgical tools, NVMe SQLite FTS5 store, eliminates 260K token bloat)
+$mcpConfig.mcpServers | Add-Member -Name "rea-gateway" -MemberType NoteProperty -Value ([PSCustomObject]@{
+    command = "python"
+    args = @("C:\tools\rea_gateway_mcp.py")
+}) -Force
+
 $cleanJson = $mcpConfig | ConvertTo-Json -Depth 5
 Set-Content -Path $mcpPath -Value $cleanJson -Encoding UTF8
-Write-Host "  [OK] Configured MCP server in: $mcpPath" -ForegroundColor Green
+Write-Host "  [OK] Configured billion-context & rea-gateway MCP servers in: $mcpPath" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
 # STEP 4: Setup C:\tools, Switcher & Profiles
@@ -202,17 +217,17 @@ if (-not (Test-Path $toolsDir)) { New-Item -ItemType Directory -Path $toolsDir -
 if (-not (Test-Path $profilesDir)) { New-Item -ItemType Directory -Path $profilesDir -Force | Out-Null }
 
 # Copy profile JSONs
-$srcConfigs = Join-Path $installerRoot "configs"
-if (Test-Path $srcConfigs) {
+$srcConfigs = Get-SourceDir "configs"
+if ($srcConfigs) {
     Copy-Item -Path (Join-Path $srcConfigs "*.json") -Destination $profilesDir -Force
     Write-Host "  [OK] Copied 6 tuned JSON profiles to: $profilesDir" -ForegroundColor Green
 }
 
-# Copy all tools (switchers + bt.cmd launcher + 35 Model-Booster scripts)
-$srcTools = Join-Path $installerRoot "tools"
-if (Test-Path $srcTools) {
+# Copy all tools (switchers + bt.cmd launcher + Model-Booster helper scripts + REA gateway)
+$srcTools = Get-SourceDir "tools"
+if ($srcTools) {
     Copy-Item -Path (Join-Path $srcTools "*") -Destination $toolsDir -Recurse -Force
-    Write-Host "  [OK] Deployed all tools, switchers, bt.cmd, and 35 helper scripts to: $toolsDir" -ForegroundColor Green
+    Write-Host "  [OK] Deployed all tools, switchers, bt.cmd, and helper scripts to: $toolsDir" -ForegroundColor Green
 }
 
 # Set BOOSTER_HOME environment variable
@@ -253,8 +268,8 @@ Write-Host "[5/6] Deploying Tuned Bionic Skills..." -ForegroundColor Cyan
 $bionicSkillsDir = Join-Path $env:USERPROFILE ".lmstudio\skills"
 if (-not (Test-Path $bionicSkillsDir)) { New-Item -ItemType Directory -Path $bionicSkillsDir -Force | Out-Null }
 
-$srcSkills = Join-Path $installerRoot "skills"
-if (Test-Path $srcSkills) {
+$srcSkills = Get-SourceDir "skills"
+if ($srcSkills) {
     if ($OnlyMasterSkill) {
         Write-Host "  [*] Copying only Master Skill (bionic-booster)..." -ForegroundColor Cyan
         Copy-Item -Path (Join-Path $srcSkills "bionic-booster") -Destination $bionicSkillsDir -Recurse -Force
@@ -269,8 +284,8 @@ if (Test-Path $srcSkills) {
 # Copy Documentation to C:\tools\docs
 $docsDir = Join-Path $toolsDir "docs"
 if (-not (Test-Path $docsDir)) { New-Item -ItemType Directory -Path $docsDir -Force | Out-Null }
-$srcDocs = Join-Path $installerRoot "docs"
-if (Test-Path $srcDocs) {
+$srcDocs = Get-SourceDir "docs"
+if ($srcDocs) {
     Copy-Item -Path (Join-Path $srcDocs "*") -Destination $docsDir -Recurse -Force
     Write-Host "  [OK] Documentation copied to: $docsDir" -ForegroundColor Green
 }
@@ -313,6 +328,9 @@ Write-Host "  Billion-Context Daemon      : $bcStatus" -ForegroundColor Cyan
 Write-Host "  Bionic Inference Server     : $bionicStatus" -ForegroundColor Cyan
 Write-Host "  Active Profile              : 01_coding (128K context, Flash Attn, q8_0)" -ForegroundColor Cyan
 Write-Host "  Bionic Booster Skill        : $(if ($bionicBoosterInstalled) {'INSTALLED'} else {'MISSING'})" -ForegroundColor Cyan
+Write-Host "  REA Meta-Gateway MCP        : INSTALLED (5 meta-tools, NVMe SQLite FTS5 store)" -ForegroundColor Cyan
+Write-Host "  IDAPython Export Engine     : READY (bt re-ida-export -> Alt+F7 color-coded patch)" -ForegroundColor Cyan
+Write-Host "  Claude Code CLI Integration : OPTIONAL (instructions in C:\tools\docs\CLAUDE_CODE.md)" -ForegroundColor Cyan
 Write-Host "  Desktop Switchers Location  : C:\tools\" -ForegroundColor Cyan
 Write-Host "  Documentation Location      : C:\tools\docs\Tutorial.md" -ForegroundColor Cyan
 Write-Host ""

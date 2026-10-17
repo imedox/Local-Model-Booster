@@ -17,17 +17,23 @@ When you double-click **`install.bat`** (or run `install.ps1` from PowerShell), 
    - Writes the optimized configuration (`128K` context, port `8787`).
    - Registers a silent Windows Scheduled Task (`BiliProxyService`) so it starts automatically on Windows boot.
    - Immediately starts the background daemon.
-3. **MCP Server Integration**: Configures `billion-context` inside `~/.lmstudio/mcp.json`.
+3. **MCP Server Integration**: 
+   - Configures `billion-context` inside `~/.lmstudio/mcp.json`.
+   - Configures the **`rea-gateway`** MCP server (5 surgical tools, eliminates 260K token bloat, and binds NVMe SQLite FTS5 evidence storage in `C:\REA-Context\`).
 4. **Deploy Profiles & Switchers**:
    - Deploys the 6 production-tuned JSON profiles to `C:\tools\profiles\`.
    - Deploys `switch_profile.ps1` and individual 1-click desktop batch switchers (`switch_coding.bat`, `switch_tool_use.bat`, etc.) to `C:\tools\`.
    - Adds `C:\tools` to your Windows User PATH.
    - Immediately activates the default **`01_coding`** profile.
-5. **Deploy Bionic Skills**:
+5. **Deploy Bionic Skills & CLI Tools**:
    - Deploys all 33 tuned skills (including the master **`bionic-booster`**) into Bionic's global skills directory (`~/.lmstudio/skills`).
-   - Deploys the 35 Model-Booster helper CLI tools (`bt.cmd`).
-6. **Documentation**: Copies `Tutorial.md`, `README.md`, `TEST_PROMPTS.md`, and hardware tuning specs into `C:\tools\docs\`.
+   - Deploys all 35 Model-Booster helper CLI tools (`bt.cmd`), including the new **`bt re-ida-export`** (IDAPython automated triage & visual color-coded patch exporter).
+6. **Documentation**: Copies `Tutorial.md`, `CLAUDE_CODE.md`, `README.md`, `TEST_PROMPTS.md`, and hardware tuning specs into `C:\tools\docs\`.
 7. **Self-Verification**: Runs automatic connection tests against port 8787 and port 1235 and outputs a verified status table.
+
+> [!NOTE]
+> **Claude Code CLI is Optional**: The 1-click automated installer is tailored for the **Bionic / LM Studio** GUI runtime. It does **not** install Claude Code CLI.
+> If you wish to use Anthropic's Claude Code CLI as an optional terminal interface, simply follow the step-by-step setup guide in `C:\tools\docs\CLAUDE_CODE.md`.
 
 ---
 
