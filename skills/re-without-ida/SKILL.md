@@ -39,6 +39,7 @@ Precondition: `bt re-mode` shows `without-ida`. Never use the IDA provider in th
 
 1. Triage: `bt re-triage`, `bt re-strings -Preset url|path|cmd`.
 2. Route by target type (rea-reverse-engineering section 1).
-3. Log evidence with `bt re-evidence` (re-evidence-discipline).
+3. Log evidence with `bt re-evidence` (re-evidence-discipline) and query via NVMe FTS5 store.
 4. Report: observations, inferences, unknowns, and "what IDA/Ghidra would add".
-5. If the user wants deeper native analysis, offer to switch to with-ida (ask; do not switch silently).
+5. Export IDAPython Annotations: Generate an automated patch script via `bt re-ida-export` or MCP `rea_export_ida`. The generated script (`C:\REA-Context\ida_patch.py`) can be imported into IDA Pro anytime with `Alt + F7` (colors injection in Red, crypto in Orange, C2 in Blue, safe routines in Green, and renames Hex-Rays variables).
+6. If the user wants deeper interactive native analysis, offer to switch to with-ida (ask; do not switch silently).
