@@ -375,6 +375,43 @@ bclaude
 📖 **Detailed Setup & Troubleshooting Guide**:
 For step-by-step reproduction instructions, PowerShell profile code, background services, and troubleshooting, read [docs/CLAUDE_CODE.md](CLAUDE_CODE.md).
 
+---
+
+## 15. REA Meta-Gateway & Reverse Engineering Arsenal
+
+### The 262K Context Overflow Problem
+When configuring the raw `rea-agents` MCP server (`npx -y rea-agents@latest mcp`), 207 detailed tool definitions are injected into the agent's system prompt. This consumes **262,751 tokens** before the user even types a single word, immediately exceeding the 128K context window of local models.
+
+### The Meta-Gateway Architecture (912 Tokens, 100% Access)
+The **REA Meta-Gateway** (`C:\tools\rea_gateway_mcp.py`) exposes only **5 surgical meta-tools**, slashing prompt overhead by **99.6%** down to **912 tokens**, while preserving complete access to the full reverse engineering suite:
+
+| Meta-Tool | Purpose | LLM Signature |
+| :--- | :--- | :--- |
+| `rea_catalog` | Discover any of the 207 REA capabilities or binary tools | `(filter?: string)` |
+| `rea_run` | Execute any tool command with NVMe interception | `(tool_name: string, command: string, cwd?: string)` |
+| `rea_search_evidence` | Sub-millisecond FTS5 search across captured outputs | `(query: string, evidence_id?: string, limit?: int)` |
+| `rea_read_chunk` | Surgical line-range reading from NVMe storage | `(evidence_id: string, start_line: int, end_line: int)` |
+| `rea_export_ida` | Generate color-coded IDAPython patch script | `(annotations: list, output_path?: string)` |
+
+### NVMe SQLite FTS5 Evidence Store (`C:\REA-Context\`)
+Large analysis dumps (disassemblies, imported symbols, entropy listings) are never dumped directly into the conversation context. Instead:
+1. They are streamed directly into high-speed NVMe storage at `C:\REA-Context\sessions\<session-id>\raw\`.
+2. Full text is indexed in SQLite FTS5 for instant keyword and address lookups (< 11 ms on 20,000+ line listings).
+3. The LLM receives only a compact metadata summary (< 120 tokens) with an `Evidence ID` (e.g. `EV-0001`).
+
+### Color-Coded IDAPython Export (`Alt + F7`)
+When reverse engineering without an active IDA Pro instance, findings can be exported to `C:\REA-Context\ida_patch.py` via `bt re-ida-export` or MCP `rea_export_ida`. When loaded into IDA Pro, functions and basic blocks are highlighted using standard triage colors:
+- 🔴 **Red (`0x3333ff`)**: Injection, Hooking & Stealth Routines.
+- 🟠 **Orange (`0x0078ff`)**: Cryptography, Decryption & Obfuscation.
+- 🔵 **Blue (`0xff8000`)**: Network C2, Sockets & Data Exfiltration.
+- 🟢 **Green (`0x33cc33`)**: Safe & Normal initialization routines.
+
+### Dual MCP Registry Configuration
+The 1-Click Installer (`installer/install.ps1`) automatically registers the REA Meta-Gateway in both:
+- **LM Studio**: `~/.lmstudio/mcp.json`
+- **Bionic Agent Internal**: `~/.lmstudio/apps/bionic/.internal/ng-mcp.json` (written without UTF-8 BOM to prevent Node.js JSON parse errors).
+
+
 
 
 

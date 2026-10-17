@@ -64,8 +64,9 @@ flowchart TD
 - **In-Memory Zero-Loop Guard**: Hard-coded in-memory break rule (stops immediately if the same tool call or error occurs twice) without spawning external shell scripts.
 - **6 Production-Tuned Profiles**: Ready-to-use configurations for Coding (`01_coding` default), Tool Use, General Operation, Long Tasks, Max Intelligence, and Max Speed.
 - **Claude Code CLI + Billion-Context Integration**: Complete setup guide and PowerShell launcher to connect Anthropic's official Claude Code CLI directly into your local LM Studio / Bionic server through Billion-Context real-time compression ([docs/CLAUDE_CODE.md](docs/CLAUDE_CODE.md)).
-- **35 Windows CLI Helper Tools (`bt.cmd`)**: Safe, capped tools for repo mapping (`bt repo-map`), symbol search (`bt find-symbol`), test running (`bt run-checks`), VRAM monitoring (`bt gpu-status`), and git checkpoints.
-- **Turnkey 1-Click Automated Installer**: A zero-config automated setup script (`installer/install.bat`) that installs the Billion-Context daemon, registers the background service, deploys profiles, and installs Bionic skills automatically.
+- **35 Windows CLI Helper Tools (`bt.cmd` / `bt.ps1`)**: Safe, capped tools for repo mapping (`bt repo-map`), symbol search (`bt find-symbol`), test running (`bt run-checks`), VRAM monitoring (`bt gpu-status`), and native PowerShell argument-forwarding dispatcher (`bt <tool> <args>`).
+- **REA Meta-Gateway & Reverse Engineering Arsenal**: Lightweight 5-tool MCP gateway (912 tokens vs 262,751 raw tokens — 99.6% reduction) granting the LLM 100% full access to all 207 REA tools without context overflow, paired with an NVMe SQLite FTS5 evidence store in `C:\REA-Context\` and automated IDAPython color-coded triage export (`bt re-ida-export`).
+- **Turnkey 1-Click Automated Installer**: A zero-config automated setup script (`installer/install.bat`) that installs the Billion-Context daemon, registers the background service, configures dual MCP registries without UTF-8 BOM corruption, deploys profiles, initializes `C:\REA-Context`, and installs Bionic skills automatically.
 
 ---
 
@@ -81,10 +82,11 @@ installer\install.bat
 
 ### What the 1-Click Installer Does:
 1. Installs and configures the **Billion-Context daemon** on port `8787` and registers the silent Windows Scheduled Task `BiliProxyService` (auto-starts on boot).
-2. Configures the `billion-context` MCP server in `~/.lmstudio/mcp.json`.
-3. Deploys all 6 tuned JSON profiles to `C:\tools\profiles\`, installs desktop `.bat` switchers, and activates `01_coding` as default.
-4. Deploys the master **`bionic-booster`** and all 33 modular skills to `~/.lmstudio/skills\`.
-5. Adds `C:\tools\` to the Windows User & Machine `PATH` so `bt <tool>` works anywhere.
+2. Configures dual MCP registries (`~/.lmstudio/mcp.json` and Bionic internal `~/.lmstudio/apps/bionic/.internal/ng-mcp.json`) with `billion-context` and the lightweight **`REA Meta-Gateway`** (saving > 260,000 tokens of prompt bloat).
+3. Pre-creates the persistent NVMe Evidence Store directories (`C:\REA-Context\sessions` and `C:\REA-Context\logs`).
+4. Deploys all 6 tuned JSON profiles to `C:\tools\profiles\`, installs desktop `.bat` switchers, and activates `01_coding` as default.
+5. Deploys the master **`bionic-booster`** and all 33 modular skills to `~/.lmstudio/skills\`.
+6. Adds `C:\tools\` to the Windows User & Machine `PATH` so `bt <tool>` works anywhere via `bt.cmd` and `bt.ps1`.
 
 > [!NOTE]
 > **Claude Code CLI is Optional**: The 1-click installer automates setup specifically for **Bionic / LM Studio**, Billion-Context, and the 35 helper tools. It **does NOT** install or configure Anthropic's Claude Code CLI.
