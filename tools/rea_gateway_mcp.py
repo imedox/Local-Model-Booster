@@ -53,6 +53,10 @@ TOOLS_DEFINITIONS = [
                 "summary": {
                     "type": "string",
                     "description": "Optional brief statement of purpose for indexing"
+                },
+                "cwd": {
+                    "type": "string",
+                    "description": "Optional working directory for the command (defaults to current working directory)"
                 }
             },
             "required": ["tool_name", "command"]
@@ -170,13 +174,17 @@ def handle_call_tool(name: str, args: dict) -> str:
         tool_name = args["tool_name"]
         cmd = args["command"]
         summary = args.get("summary")
+        run_cwd = args.get("cwd")
+        if run_cwd and not os.path.isdir(run_cwd):
+            run_cwd = None
 
         # Execute command safely via powershell
         proc = subprocess.run(
             ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", cmd],
             capture_output=True,
             text=True,
-            timeout=120
+            timeout=180,
+            cwd=run_cwd
         )
         output = proc.stdout + ("\nSTDERR:\n" + proc.stderr if proc.stderr else "")
         if not output.strip():
@@ -238,6 +246,14 @@ def main():
         req_id = req.get("id")
         method = req.get("method")
         params = req.get("params", {})
+
+        try:
+            log_dir = Path(r"C:\REA-Context\logs")
+            log_dir.mkdir(parents=True, exist_ok=True)
+            with open(log_dir / "gateway.log", "a", encoding="utf-8") as f:
+                f.write(f"[{method}] id={req_id} params={list(params.keys())}\n")
+        except Exception:
+            pass
 
         if method == "initialize":
             res = {

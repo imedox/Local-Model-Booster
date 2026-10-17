@@ -17,9 +17,9 @@ When you double-click **`install.bat`** (or run `install.ps1` from PowerShell), 
    - Writes the optimized configuration (`128K` context, port `8787`).
    - Registers a silent Windows Scheduled Task (`BiliProxyService`) so it starts automatically on Windows boot.
    - Immediately starts the background daemon.
-3. **MCP Server Integration**: 
-   - Configures `billion-context` inside `~/.lmstudio/mcp.json`.
-   - Configures the **`rea-gateway`** MCP server (5 surgical tools, eliminates 260K token bloat, and binds NVMe SQLite FTS5 evidence storage in `C:\REA-Context\`).
+3. **Dual MCP Server Integration (LM Studio & Bionic)**: 
+   - Configures `billion-context` inside `~/.lmstudio/mcp.json` and Bionic's internal registry (`~/.lmstudio/apps/bionic/.internal/ng-mcp.json`).
+   - Configures the **`REA Meta-Gateway`** MCP server (`C:\tools\rea_gateway_mcp.py`) in both locations, automatically replacing raw 207-tool `rea-agents` schemas (which cause 260K token overflows) with 5 surgical meta-tools and persistent NVMe SQLite FTS5 storage in `C:\REA-Context\`.
 4. **Deploy Profiles & Switchers**:
    - Deploys the 6 production-tuned JSON profiles to `C:\tools\profiles\`.
    - Deploys `switch_profile.ps1` and individual 1-click desktop batch switchers (`switch_coding.bat`, `switch_tool_use.bat`, etc.) to `C:\tools\`.
