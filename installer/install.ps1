@@ -285,9 +285,17 @@ if (Test-Path $bionicDir) {
     
     $bionicMcp = [PSCustomObject]@{ servers = $serversList.ToArray() }
     $bionicJson = $bionicMcp | ConvertTo-Json -Depth 6
-    Set-Content -Path $bionicMcpPath -Value $bionicJson -Encoding UTF8
+    [System.IO.File]::WriteAllText($bionicMcpPath, $bionicJson, (New-Object System.Text.UTF8Encoding($false)))
     Write-Host "  [OK] Configured Bionic internal MCP registry (ng-mcp.json) with REA Gateway & Billion-Context" -ForegroundColor Green
 }
+
+# Pre-create Persistent NVMe Evidence Store (C:\REA-Context)
+$reaContextDir = "C:\REA-Context"
+$reaSessionsDir = Join-Path $reaContextDir "sessions"
+$reaLogsDir = Join-Path $reaContextDir "logs"
+if (-not (Test-Path $reaSessionsDir)) { New-Item -ItemType Directory -Path $reaSessionsDir -Force | Out-Null }
+if (-not (Test-Path $reaLogsDir)) { New-Item -ItemType Directory -Path $reaLogsDir -Force | Out-Null }
+Write-Host "  [OK] Initialized NVMe Evidence Store directories in: $reaContextDir" -ForegroundColor Green
 
 # ------------------------------------------------------------------------------
 # STEP 4: Setup C:\tools, Switcher & Profiles
