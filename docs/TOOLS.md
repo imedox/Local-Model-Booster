@@ -30,7 +30,7 @@ Without install: `tools\bt.cmd <tool> <args>`.
 | fetch-page | Web page as plain text | web-research |
 | re-mode | RE gate: record user's with-ida / without-ida choice and authorization | re-mode-gate (all re-* / rea-* tools refuse without it) |
 | rea-doctor | Readiness: Node, IDA, ida-pro-mcp, Ghidra, Java, env vars; REA doctor per provider | rea-reverse-engineering, re-with-ida, re-without-ida |
-| rea-mcp-config | Generate or merge REA MCP entry (cmd.exe wrapper) for LM Studio/Hermes, with backup | re-with-ida, re-without-ida |
+| rea-mcp-config | Generate or merge REA Meta-Gateway entry (5 surgical tools, NVMe store) for LM Studio and Bionic (ng-mcp.json) with backup | re-with-ida, re-without-ida |
 | rea-setup-plan | Print exact REA setup plan for the chosen mode (user runs it) | rea-reverse-engineering |
 | rea-run | REA CLI with timeout, capped output, mode-aware provider rules | rea-reverse-engineering |
 | re-triage | Offline PE/ELF/ZIP triage: hashes, headers, sections, entropy, imports, signature | re-without-ida, rea-reverse-engineering |

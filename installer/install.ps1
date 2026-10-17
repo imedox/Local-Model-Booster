@@ -205,6 +205,90 @@ $cleanJson = $mcpConfig | ConvertTo-Json -Depth 5
 Set-Content -Path $mcpPath -Value $cleanJson -Encoding UTF8
 Write-Host "  [OK] Configured billion-context & rea-gateway MCP servers in: $mcpPath" -ForegroundColor Green
 
+# Also configure Bionic Internal MCP registry (~/.lmstudio/apps/bionic/.internal/ng-mcp.json)
+$bionicDir = Join-Path $env:USERPROFILE ".lmstudio\apps\bionic"
+$bionicInternalDir = Join-Path $bionicDir ".internal"
+$bionicMcpPath = Join-Path $bionicInternalDir "ng-mcp.json"
+
+if (Test-Path $bionicDir) {
+    if (-not (Test-Path $bionicInternalDir)) { New-Item -ItemType Directory -Path $bionicInternalDir -Force | Out-Null }
+    
+    $bionicMcp = @{ servers = @() }
+    if (Test-Path $bionicMcpPath) {
+        try {
+            $rawBionic = Get-Content -Path $bionicMcpPath -Raw -Encoding UTF8
+            if ($rawBionic.Trim()) { $bionicMcp = $rawBionic | ConvertFrom-Json }
+        } catch {}
+    }
+    
+    $serversList = [System.Collections.Generic.List[PSObject]]::new()
+    $foundRea = $false
+    $foundBili = $false
+    
+    if ($bionicMcp.servers) {
+        foreach ($srv in $bionicMcp.servers) {
+            # Replace raw REA server (207 tools, ~260k tokens) with surgical REA Meta-Gateway (5 tools)
+            if ($srv.name -ieq "rea" -or $srv.name -ieq "rea-gateway") {
+                $srv.name = "REA"
+                $srv.enabled = $true
+                $srv.connection = [PSCustomObject]@{
+                    type = "stdio"
+                    command = "python"
+                    args = @("C:\tools\rea_gateway_mcp.py")
+                    env = [PSCustomObject]@{}
+                }
+                $foundRea = $true
+                $serversList.Add($srv)
+            } elseif ($srv.name -ieq "billion-context") {
+                $srv.enabled = $true
+                $srv.connection = [PSCustomObject]@{
+                    type = "stdio"
+                    command = "node"
+                    args = @($distMcp)
+                    env = [PSCustomObject]@{}
+                }
+                $foundBili = $true
+                $serversList.Add($srv)
+            } else {
+                $serversList.Add($srv)
+            }
+        }
+    }
+    
+    if (-not $foundBili) {
+        $serversList.Add([PSCustomObject]@{
+            id = [System.Guid]::NewGuid().ToString()
+            name = "billion-context"
+            enabled = $true
+            connection = [PSCustomObject]@{
+                type = "stdio"
+                command = "node"
+                args = @($distMcp)
+                env = [PSCustomObject]@{}
+            }
+        })
+    }
+    
+    if (-not $foundRea) {
+        $serversList.Add([PSCustomObject]@{
+            id = [System.Guid]::NewGuid().ToString()
+            name = "REA"
+            enabled = $true
+            connection = [PSCustomObject]@{
+                type = "stdio"
+                command = "python"
+                args = @("C:\tools\rea_gateway_mcp.py")
+                env = [PSCustomObject]@{}
+            }
+        })
+    }
+    
+    $bionicMcp = [PSCustomObject]@{ servers = $serversList.ToArray() }
+    $bionicJson = $bionicMcp | ConvertTo-Json -Depth 6
+    Set-Content -Path $bionicMcpPath -Value $bionicJson -Encoding UTF8
+    Write-Host "  [OK] Configured Bionic internal MCP registry (ng-mcp.json) with REA Gateway & Billion-Context" -ForegroundColor Green
+}
+
 # ------------------------------------------------------------------------------
 # STEP 4: Setup C:\tools, Switcher & Profiles
 # ------------------------------------------------------------------------------
